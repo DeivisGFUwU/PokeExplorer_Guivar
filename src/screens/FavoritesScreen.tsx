@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, View, StyleSheet} from 'react-native';
-import Screen from '../components/Screen';
+import {ActivityIndicator, FlatList, View, StyleSheet, Text} from 'react-native';
+import { Screen } from '../components/Screen';
 import PokemonCard from '../components/PokemonCard';
 import Button from '../components/Button';
 import {useAppStore} from '../store/useAppStore';
@@ -50,7 +50,7 @@ export default function FavoritesScreen() {
             right={<Button title="Quitar" onPress={() => toggleFavorite(item.name)} />}
           />
         )}
-        ListEmptyComponent={<View style={styles.empty}/>} 
+  ListEmptyComponent={<View style={styles.empty}><Text style={styles.emptyText}>No hay favoritos</Text></View>} 
       />
     </Screen>
   );
@@ -58,5 +58,6 @@ export default function FavoritesScreen() {
 
 const styles = StyleSheet.create({
   loading: {marginTop: 24},
-  empty: {height: 20},
+  empty: {height: 20, justifyContent: 'center'},
+  emptyText: {textAlign: 'center', color: '#888'},
 });

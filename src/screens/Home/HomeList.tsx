@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
-import Screen from '../../components/Screen';
+import { Screen } from '../../components/Screen';
 import PokemonCard from '../../components/PokemonCard';
 import usePokemonList from './usePokemonList';
 import {useNavigation} from '@react-navigation/native';
