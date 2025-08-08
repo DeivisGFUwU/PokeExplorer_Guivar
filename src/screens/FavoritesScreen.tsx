@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, View, StyleSheet, Text} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
+import InfoMessage from '../components/InfoMessage';
 import { Screen } from '../components/Screen';
+import { useToast } from '../components/ToastProvider';
 import PokemonCard from '../components/PokemonCard';
 import Button from '../components/Button';
 import {useAppStore} from '../store/useAppStore';
@@ -13,6 +15,7 @@ export default function FavoritesScreen() {
   const toggleFavorite = useAppStore(s => s.toggleFavorite);
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     let mounted = true;
@@ -35,6 +38,23 @@ export default function FavoritesScreen() {
     return () => { mounted = false; };
   }, [names]);
 
+  const handleRemove = useCallback((name: string) => {
+    toggleFavorite(name);
+    toast.show('Eliminado de favoritos', 'success');
+  }, [toggleFavorite, toast]);
+
+  const renderItem = useCallback(
+    ({ item }: { item: Row }) => (
+      <PokemonCard
+        name={item.name}
+        image={item.image}
+        types={item.types}
+        right={<Button title="Quitar" onPress={() => handleRemove(item.name)} />}
+      />
+    ),
+    [handleRemove]
+  );
+
   if (loading) return <Screen><ActivityIndicator style={styles.loading}/></Screen>;
 
   return (
@@ -42,15 +62,8 @@ export default function FavoritesScreen() {
       <FlatList
         data={rows}
         keyExtractor={(i) => i.key}
-        renderItem={({item}) => (
-          <PokemonCard
-            name={item.name}
-            image={item.image}
-            types={item.types}
-            right={<Button title="Quitar" onPress={() => toggleFavorite(item.name)} />}
-          />
-        )}
-  ListEmptyComponent={<View style={styles.empty}><Text style={styles.emptyText}>No hay favoritos</Text></View>} 
+        renderItem={renderItem}
+        ListEmptyComponent={<InfoMessage message="No hay favoritos" type="empty" />}
       />
     </Screen>
   );

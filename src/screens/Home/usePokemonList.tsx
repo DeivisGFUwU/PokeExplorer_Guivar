@@ -8,10 +8,12 @@ export default function usePokemonList() {
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
+    setError(null);
     try {
       const page = await fetchPagedPokemon(offset, 20);
 
@@ -34,6 +36,7 @@ export default function usePokemonList() {
       setOffset(prev => prev + items.length);
       setHasMore(Boolean(page.next));
     } catch (e) {
+      setError('No se pudo cargar la lista de Pokémon. Intenta de nuevo.');
       console.warn('[usePokemonList] load error', e);
     } finally {
       setLoading(false);
@@ -46,5 +49,5 @@ export default function usePokemonList() {
     }
   }, [load, rows.length, loading]);
 
-  return {rows, load, loading, hasMore};
+  return {rows, load, loading, hasMore, error};
 }

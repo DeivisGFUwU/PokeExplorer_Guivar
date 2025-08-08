@@ -1,82 +1,80 @@
 <<<<<<< HEAD
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# PokeExplorer Guivar
 
-# Getting Started
+Aplicación móvil hecha en **React Native** para explorar Pokémon usando la [PokeAPI](https://pokeapi.co/). Permite buscar, ver detalles y gestionar favoritos, con soporte para modo claro/oscuro y feedback visual moderno.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Características
 
-## Step 1: Start Metro
+- Listado de Pokémon con imágenes y tipos.
+- Detalle de cada Pokémon (estadísticas, habilidades, tipos).
+- Gestión de favoritos (agregar/quitar).
+- Búsqueda y paginación.
+- Modo claro y oscuro.
+- Feedback global con toasts y mensajes unificados.
+- Optimización de rendimiento en listas.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Instalación y ejecución
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+1. **Clona el repositorio:**
+	```sh
+	git clone <url-del-repo>
+	cd PokeExplorer_Guivar
+	```
 
-```sh
-# Using npm
-npm start
+2. **Instala dependencias:**
+	```sh
+	npm install
+	# o
+	yarn install
+	```
 
-# OR using Yarn
-yarn start
-```
+3. **Ejecuta Metro (servidor JS):**
+	```sh
+	npm start
+	# o
+	yarn start
+	```
 
-## Step 2: Build and run your app
+4. **Corre la app:**
+	- **Android:**
+	  ```sh
+	  npm run android
+	  # o
+	  yarn android
+	  ```
+	- **iOS:**
+	  ```sh
+	  npm run ios
+	  # o
+	  yarn ios
+	  ```
+	  > Asegúrate de instalar CocoaPods en iOS: `cd ios && pod install`
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## Estructura del proyecto
 
-### Android
+- `src/components/` — Componentes reutilizables (Botón, Card, Mensajes, Toast, etc).
+- `src/screens/` — Pantallas principales (Home, Favoritos, Perfil, Detalle, Login).
+- `src/api/` — Lógica de conexión con la PokeAPI.
+- `src/store/` — Estado global (favoritos, usuario, etc) usando Zustand.
+- `src/theme/` — Temas y proveedor de modo claro/oscuro.
+- `__tests__/` — Pruebas unitarias (si aplica).
 
-```sh
-# Using npm
-npm run android
+## Scripts útiles
 
-# OR using Yarn
-yarn android
-```
+- `npm start` — Inicia Metro Bundler.
+- `npm run android` — Compila y ejecuta en Android.
+- `npm run ios` — Compila y ejecuta en iOS.
+- `npm test` — Ejecuta pruebas.
 
-### iOS
+## Créditos y agradecimientos
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+- [React Native](https://reactnative.dev/)
+- [PokeAPI](https://pokeapi.co/)
+- [Zustand](https://github.com/pmndrs/zustand)
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+---
 
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
+Desarrollado por DeivisGFUwU y colaboradores. ¡Atrápalos todos!
 
 ### Now what?
 

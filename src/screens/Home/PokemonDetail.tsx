@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Image, Text, View, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {ActivityIndicator, Image, View, StyleSheet, ScrollView, Text} from 'react-native';
+import InfoMessage from '../../components/InfoMessage';
 import { Screen } from '../../components/Screen';
 import {fetchPokemon, Pokemon} from '../../api/pokeapi';
 import Button from '../../components/Button';
 import {useAppStore} from '../../store/useAppStore';
-import { useThemeToggle } from '../../theme/ThemeProvider';
 
 export default function PokemonDetail({ route }: any) {
   const { name } = route.params || {};
@@ -13,34 +13,46 @@ export default function PokemonDetail({ route }: any) {
   const [error, setError] = useState<string | null>(null);
   const toggleFavorite = useAppStore(s => s.toggleFavorite);
   const isFavorite = useAppStore(s => s.isFavorite(name));
-  const { isDark } = useThemeToggle();
+  // const { isDark } = useThemeToggle();
 
-  useEffect(() => {
+  const loadPokemon = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     if (!name || typeof name !== 'string') {
       setError('Pokémon no válido.');
       setLoading(false);
       return;
     }
-    (async () => {
-      try {
-        const p = await fetchPokemon(name);
-        setData(p);
-      } catch (e) {
-        setError('No se pudo cargar el Pokémon. Intenta de nuevo.');
-      } finally {
-        setLoading(false);
-      }
-    })();
+    try {
+      const p = await fetchPokemon(name);
+      setData(p);
+    } catch (e) {
+      setError('No se pudo cargar el Pokémon. Intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
   }, [name]);
+
+  useEffect(() => {
+    loadPokemon();
+  }, [loadPokemon]);
 
   if (loading) {
     return <Screen><ActivityIndicator style={styles.loading}/></Screen>;
   }
   if (error) {
-    return <Screen><Text style={[styles.text, isDark ? styles.errorTextDark : styles.errorTextLight]}>{error}</Text></Screen>;
+    return (
+      <Screen>
+        <View style={styles.centered}>
+          <InfoMessage message={error} type="error" />
+          <View style={styles.spacer}/>
+          <Button title="Reintentar" onPress={loadPokemon} />
+        </View>
+      </Screen>
+    );
   }
   if (!data) {
-    return <Screen><Text style={styles.text}>No hay datos para mostrar.</Text></Screen>;
+    return <Screen><InfoMessage message="No hay datos para mostrar." type="empty" /></Screen>;
   }
 
   const img = data.sprites.other?.['official-artwork']?.front_default ?? '';
@@ -85,4 +97,5 @@ const styles = StyleSheet.create({
   loading: {marginTop: 24},
   scrollContent: {paddingBottom: 24},
   spacer: {height: 12},
+  centered: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });
